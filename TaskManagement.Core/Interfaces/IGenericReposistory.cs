@@ -18,6 +18,10 @@ namespace TaskManagement.Core.Interfaces
         //create method Update
         Task Update(T entity);
         //create method Delete
+
+
+
+        
         Task Delete(T entity);
     }
 }
