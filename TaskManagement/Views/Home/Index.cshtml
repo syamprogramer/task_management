@@ -1,0 +1,52 @@
+﻿@model TaskManagement.ViewModels.TasksVM
+@{
+    TempData["Title"] = "Home Page";
+}
+@if (@TempData["Message"] != null)
+{
+  
+   
+    @if (@TempData["IsError"] !=null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Message"]
+        </div>
+    }
+    else  
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Message"]
+    </div>
+    }
+}
+@ViewBag.Message
+@using (Html.BeginForm("SaveTask", "Home", FormMethod.Post))
+{
+    <label for="Title" class="form-label">Title*</label>
+    <input type="text" value="@Model.Title" name="Title" class="form-control" />
+
+
+    <label for="Title" class="form-label">Description*</label>
+    <textarea  name="Description" class="form-control" rows="3">@Model.Description</textarea>
+   /* <div class="form-check">
+        @if(Model.Id!=0){
+        @if (Model.IsCompleted )
+        {
+            <input class="form-check-input" type="checkbox" name="IsCompleted" id="flexCheckDefault" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" value="" name="IsCompleted" id="flexCheckDefault">
+        }
+            <label class="form-check-label" for="flexCheckDefault">
+                Completed
+            </label>
+        }
+       
+    </div>*/
+   <input  type="hidden" value="@Model.Id" name="Id"/>
+    <input type="hidden" value="@Model.Status" name="Status" />
+    
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

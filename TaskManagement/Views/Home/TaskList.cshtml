@@ -1,0 +1,67 @@
+﻿@model TaskManagement.ViewModels.TaskListVM
+@{
+    ViewData["Title"] = "TaskList";
+}
+
+ 
+<!-- table to display task with taskid,title,description,status-->
+<table   id="dtTask" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Task ID
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+               Description
+            </th>
+            <th>
+               Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tasks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if(item.Status==1)
+                    {
+                        <span class="badge bg-success">Completed</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Pending</span>
+                    }
+                    
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                    @if (item.Status == 0) {
+                        <a asp-action="MarkAscomplete" asp-route-id="@item.Id">Mark Complete</a>
+                    }
+                    
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dtTask').DataTable();
+        });
+        </script>
+
