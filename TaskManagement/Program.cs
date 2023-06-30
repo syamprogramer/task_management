@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Services;
+using TaskManagement.Core.Interfaces;
 using TaskManagement.Core.Reposistories;
 using TaskManagement.Core.Services;
 using TaskManagement.Data;
@@ -20,8 +21,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 //Add TaskReposistory in transient
 builder.Services.AddTransient<ITaskReposistory, TaskReposistory>();
+//Add IUserReposistory in transient
+builder.Services.AddTransient<IUserReposistory, UserReposistory>();
 //Add TaskService in transient
 builder.Services.AddTransient<ITaskService, TaskService>();
+//Add Iuserservice in transient
+builder.Services.AddTransient<IUserService, UserService>();
 
 
 

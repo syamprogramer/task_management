@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskManagement.Core.Entities
@@ -27,6 +28,20 @@ namespace TaskManagement.Core.Entities
         //Create property DeletedAt
         [Column(TypeName = "datetime2")]
         public DateTime DeletedAt { get; set; } = DateTime.Now;
+       
+        
+
+         
+
+        [ForeignKey("AssignedTo")]
+        public int? AssignedTo { get; set; }
+        [ForeignKey("AssignedBy")]
+        public int? AssignedBy { get; set; }
+        [ForeignKey("AssignedTo")]
+        public virtual User? AssignedToUser { get; set; }
+        [ForeignKey("AssignedBy")]
+        public virtual User? AssignedByUser { get; set; }
     }
-    
+
+     
 }

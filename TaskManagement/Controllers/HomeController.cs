@@ -5,6 +5,7 @@ using TaskManagement.Models;
 using TaskManagement.ViewModels;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using TaskManagement.Application.Services;
 
 namespace TaskManagement.Controllers
 {
@@ -13,16 +14,25 @@ namespace TaskManagement.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly ITaskService _taskService;
-        public HomeController(ILogger<HomeController> logger, ITaskService taskService)
+        private readonly IUserService _userService;
+        public HomeController(ILogger<HomeController> logger, ITaskService taskService, IUserService userService)
         {
             _logger = logger;
             _taskService = taskService;
-
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
             TasksVM vm = new TasksVM();
+            //get all users
+            var aspuser = _userService.GetAll().Result.ToList();
+            //map aspuser to Users
+            vm.Users = aspuser.Select(x => new Users
+            {
+                Id = x.Id,
+                UserName = x.UserName
+            }).OrderBy(a=>a.UserName).ToList();
             return View("Index", vm);
         }
 
@@ -47,7 +57,8 @@ namespace TaskManagement.Controllers
                     Title = model.Title,
                     Description = model.Description,
                     Status = model.Status,
-                    Priority = model.Priority
+                    Priority = model.Priority,
+                    AssignedTo = Convert.ToInt32(model.UserId)
                 };
                 if (model.Id != 0)
                 {
@@ -95,6 +106,14 @@ namespace TaskManagement.Controllers
             objVm.Description = task.Description;
             objVm.Status = task.Status;
             objVm.Priority = task.Priority;
+            objVm.UserId=task.AssignedTo.ToString();
+            var aspuser = _userService.GetAll().Result.ToList();
+            //map aspuser to Users
+            objVm.Users = aspuser.Select(x => new Users
+            {
+                Id = x.Id,
+                UserName = x.UserName
+            }).OrderBy(a => a.UserName).ToList();
             return View("Index", objVm);
 
 

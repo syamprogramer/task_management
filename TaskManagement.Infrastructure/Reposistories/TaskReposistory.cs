@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,6 @@ namespace TaskManagement.Infrastructure.Reposistories
     {
         private readonly ApplicationDbContext _dbContext;
 
-        
 
         public TaskReposistory(ApplicationDbContext dbContext)
         {
@@ -24,9 +24,10 @@ namespace TaskManagement.Infrastructure.Reposistories
         }
 
         //create method GetAll
+
         public async Task<IEnumerable<Entities.Task>> GetAll()
         {
-            return _dbContext.Task.ToList();
+            return _dbContext.Task.Include("AssignedToUser").ToList();
         }
         //create method GetById
         public async Task<Entities.Task> GetById(int id)
@@ -53,6 +54,12 @@ namespace TaskManagement.Infrastructure.Reposistories
         {
             _dbContext.Task.Remove(entity);
             _dbContext.SaveChanges();
+        }
+
+        //create method GetByUserId
+        public async Task<IEnumerable<Entities.Task>> GetByUserId(int userId)
+        {
+            return _dbContext.Task.Where(x => x.AssignedTo == userId).ToList();
         }
     }
 

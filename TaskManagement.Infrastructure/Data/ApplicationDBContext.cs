@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Core.Entities;
 
 namespace TaskManagement.Data
 {
@@ -13,5 +15,6 @@ namespace TaskManagement.Data
         }
         //Add DbSet for Task
         public DbSet<Core.Entities.Task> Task { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
